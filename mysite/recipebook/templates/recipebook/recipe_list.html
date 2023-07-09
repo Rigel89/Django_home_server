@@ -1,0 +1,28 @@
+{% block content %}
+  <h1>Recipes List</h1>
+  {% if recipe_list %}
+  <ul>
+    {% for recipe in recipe_list %}
+      <li>
+          <a href="{% url 'recipebook:recipe_detail'  recipe.id %}">{{ recipe.name }}</a>
+          (<a href="{% url 'recipebook:recipe_update' recipe.id %}">Update</a> |
+          <a href="{% url 'recipebook:recipe_delete' recipe.id %}">Delete</a>)
+          {{ recipe.mode }}
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no recipes in the library.</p>
+  {% endif %}
+  <p>
+    {% if cookingMode_count > 0 %}
+      <a href="{% url 'recipebook:recipe_create' %}">Add a recipe</a>
+    {% else %}
+      Please add a mode before you add an recipe.
+    {% endif %}
+  </p>
+  <p>
+  <a href="{% url 'recipebook:cookingMode_list' %}">View modes</a> ({{ make_count }}) | 
+    <a href="{% url 'recipebook:cookingMode_create' %}">Add a modes</a>
+  </p>
+{% endblock %}

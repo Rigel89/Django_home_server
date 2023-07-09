@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    #APPs
+    "helloworld.apps.HelloworldConfig",
+    "recipebook.apps.RecipebookConfig",
+    "autos.apps.AutosConfig",
 ]
 
 MIDDLEWARE = [

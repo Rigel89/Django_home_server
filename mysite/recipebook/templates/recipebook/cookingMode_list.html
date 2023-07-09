@@ -1,0 +1,21 @@
+
+{% block content %}
+  <h1>Cooking mode List</h1>
+  {% if cookingMode_list %}
+  <ul>
+    {% for cookingMode in cookingMode_list %}
+      <li>
+          {{ cookingMode.name }}
+         (<a href="{% url 'recipebook:cookingMode_update' cookingMode.id %}">Update</a> |
+          <a href="{% url 'recipebook:cookingMode_delete' cookingMode.id %}">Delete</a>)
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no mode in the library.</p>
+  {% endif %}
+  <p><a href="{% url 'recipebook:cookingMode_create' %}">Add a mode</a></p>
+  <p>
+    <a href="{% url 'recipebook:main' %}">Back to recipes</a>
+  </p>
+{% endblock %}
