@@ -1,3 +1,4 @@
+{% extends 'home/base_menu.html' %}
 {% block content %}
   <h1>Recipes List</h1>
   {% if recipe_list %}
@@ -7,7 +8,6 @@
           <a href="{% url 'recipebook:recipe_detail'  recipe.id %}">{{ recipe.name }}</a>
           (<a href="{% url 'recipebook:recipe_update' recipe.id %}">Update</a> |
           <a href="{% url 'recipebook:recipe_delete' recipe.id %}">Delete</a>)
-          {{ recipe.mode }}
       </li>
     {% endfor %}
   </ul>

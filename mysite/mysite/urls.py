@@ -18,8 +18,9 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    path('', include('home.urls')),  # Change to ads.urls
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),  # Keep
     path('helloworld/', include('helloworld.urls')),
     path('recipebook/', include('recipebook.urls')),
-    path('autos/', include('autos.urls')),
 ]

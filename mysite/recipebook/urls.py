@@ -5,7 +5,8 @@ from django.views.generic import TemplateView
 # https://docs.djangoproject.com/en/3.0/topics/http/urls/
 app_name = 'recipebook'
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='recipebook/main.html'), name='main'),
+    path('', TemplateView.as_view(template_name='recipebook/base_menu.html'), name='menu'),
+    path('main', TemplateView.as_view(template_name='recipebook/main.html'), name='main'),
     path('example', views.example),
     path('recipe/', views.recipeView.as_view(), name='recipe_list'),
     path('recipe/<int:pk>', views.recipeDetailView.as_view(), name='recipe_detail'),

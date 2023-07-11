@@ -15,17 +15,17 @@ def example(request) :
     recipe = BasicForm()
     return HttpResponse(recipe.as_table())
 
-class MainView(LoginRequiredMixin, View):
+class MainView(View):
     def get(self, request):
         return render(request, 'recipebook/main.html', )
 
-class cookingModeView(LoginRequiredMixin,View):
+class cookingModeView(LoginRequiredMixin, View):
     def get(self, request):
         cml = CookingMode.objects.all()
         ctx = {'cookingMode_list': cml}
         return render(request, 'recipebook/cookingMode_list.html', ctx)
 
-class recipeView(View):
+class recipeView(LoginRequiredMixin, View):
     def get(self, request):
         rl = Recipe.objects.all()
         rc = CookingMode.objects.all().count()
@@ -44,7 +44,7 @@ class recipeDetailView(View):
 
 # We use reverse_lazy() because we are in "constructor attribute" code
 # that is run before urls.py is completely loaded
-class recipeCreate(LoginRequiredMixin,View):
+class recipeCreate(LoginRequiredMixin, View):
     template = 'recipebook/recipe_form.html'
     success_url = reverse_lazy('recipebook:recipe_list')
 
@@ -66,7 +66,7 @@ class recipeCreate(LoginRequiredMixin,View):
 # MakeUpdate has code to implement the get/post/validate/store flow
 # AutoUpdate (below) is doing the same thing with no code
 # and no form by extending UpdateView
-class recipeUpdate(LoginRequiredMixin,View):
+class recipeUpdate(LoginRequiredMixin, View):
     reci = Recipe
     success_url = reverse_lazy('recipebook:recipe_list')
     template = 'recipebook/recipe_form.html'
@@ -88,7 +88,7 @@ class recipeUpdate(LoginRequiredMixin,View):
         return redirect(self.success_url)
 
 
-class recipeDelete(LoginRequiredMixin,View):
+class recipeDelete(LoginRequiredMixin, View):
     reci = Recipe
     success_url = reverse_lazy('recipebook:recipe_list')
     template = 'recipebook/recipe_confirm_delete.html'
@@ -108,7 +108,7 @@ class recipeDelete(LoginRequiredMixin,View):
 # These views do not need a form because CreateView, etc.
 # Build a form object dynamically based on the fields
 # value in the constructor attributes
-class cookingModeCreate(LoginRequiredMixin,CreateView):
+class cookingModeCreate(LoginRequiredMixin, View):
     template = 'recipebook/cookingMode_form.html'
     success_url = reverse_lazy('recipebook:cookingMode_list')
 
@@ -126,13 +126,13 @@ class cookingModeCreate(LoginRequiredMixin,CreateView):
         mode = form.save()
         return redirect(self.success_url)
 
-class cookingModeUpdate(LoginRequiredMixin,UpdateView):
+class cookingModeUpdate(LoginRequiredMixin, UpdateView):
     model = CookingMode
     fields = '__all__'
     success_url = reverse_lazy('recipebook:cookingMode_list')
 
 
-class cookingModeDelete(LoginRequiredMixin,DeleteView):
+class cookingModeDelete(LoginRequiredMixin, DeleteView):
     model = CookingMode
     fields = '__all__'
     success_url = reverse_lazy('recipebook:cookingMode_list')

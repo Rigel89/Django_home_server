@@ -1,0 +1,55 @@
+{% extends 'base_bootstrap.html' %}
+{% block navbar %}
+<!-- https://www.w3schools.com/bootstrap/bootstrap_navbar.asp -->
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'home:main' %}">{{ settings.APP_NAME }}</a>
+    </div>
+    <!-- https://stackoverflow.com/questions/22047251/django-dynamically-get-view-url-and-check-if-its-the-current-page -->
+    <ul class="nav navbar-nav">
+
+      <!-- Assign output of url function to a variable named
+          'xyz' to use in the if statement -->
+      {% url 'home:main' as xyz %}
+      <li {% if request.get_full_path == xyz %}class="active"{% endif %}>
+          <a href="{% url 'home:main' %}">Home</a></li>
+
+      {% url 'recipebook:main' as abc1 %}
+      <li {% if request.get_full_path == abc1 %}class="active"{% endif %}>
+          <a href="{% url 'recipebook:main' %}">Recipe Book</a></li>
+
+      {% url 'recipebook:cookingMode_list' as abc2 %}
+      <li {% if request.get_full_path == abc2 %}class="active"{% endif %}>
+          <a href="{% url 'recipebook:cookingMode_list' %}">Page 2</a></li>
+
+      <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">Recipe Book
+          <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li>
+              <a href="{% url 'recipebook:main' %}">Main</a>
+              <a href="{% url 'recipebook:recipe_list' %}">Recipe list</a>
+              <a href="{% url 'recipebook:cookingMode_list' %}">Mode list</a>
+            </li>
+        </ul>
+       </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      {% if user.is_authenticated %}
+      <li class="dropdown">
+      <!-- gravatar depends on app_tags being loaded -->
+      <!-- https://brobin.me/blog/2016/07/super-simple-django-gravatar/ -->
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+        </a>
+        <ul class="dropdown-menu">
+            <li>You are autenticated</li>
+        </ul>
+       </li>
+       {% else %}
+       <li>You must be autenticated</li>
+       {% endif %}
+    </ul>
+  </div>
+</nav>
+{% endblock %}

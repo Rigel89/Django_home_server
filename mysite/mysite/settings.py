@@ -39,11 +39,22 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    #Extensions - installed with pip / requirements.txt
+    "django_extensions",
+    #"rest_framework", 
+    #'social_django',  
+    #"taggit",
+    #'home.apps.HomeConfig',
+    "crispy_forms",
+    "crispy_bootstrap5",
     #APPs
+    "home.apps.HomeConfig",
     "helloworld.apps.HelloworldConfig",
     "recipebook.apps.RecipebookConfig",
-    "autos.apps.AutosConfig",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
