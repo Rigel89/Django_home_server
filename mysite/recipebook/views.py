@@ -2,11 +2,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+#from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.urls import reverse_lazy
 
-from recipebook.models import Recipe, CookingMode#, cookingStep
-from recipebook.forms import recipeForm, cookingModeForm, BasicForm
+from recipebook.models import Recipe, CookingMode, Step, CookingStep
+from recipebook.forms import recipeForm, cookingModeForm, BasicForm, stepForm, cookingStepForm1, cookingStepForm2
 from django.http import HttpResponse
 
 # Create your views here.
@@ -32,13 +33,22 @@ class recipeView(LoginRequiredMixin, View):
         ctx = {'recipe_list': rl, 'cookingMode_count': rc}
         return render(request, 'recipebook/recipe_list.html', ctx)
 
-class recipeDetailView(View):
+class cookingStepView(LoginRequiredMixin, View):
+    def get(self, request):
+        csl = CookingStep.objects.all()
+        ctx = {'cookingStep_list': csl}
+        return render(request, 'recipebook/cookingStep_list.html', ctx)
+
+class recipeDetailView(LoginRequiredMixin, View):
     reci = Recipe
     def get(self, request, pk):
         recipe = get_object_or_404(self.reci, pk=pk)
+        cookingstep = CookingStep.objects.filter(recipe=recipe.id)
         rm = recipe.mode.all()
         rmc =recipe.mode.count()
-        ctx = {'recipe':recipe, 'modes':rm, 'mode_count':rmc}
+        cs = recipe.step.all()
+        csc =recipe.step.count()
+        ctx = {'recipe':recipe, 'modes':rm, 'mode_count':rmc, 'cookingstep':cookingstep, 'steps':cs, 'step_count':csc}
         return render(request, 'recipebook/recipe_detail.html', ctx)
 
 
@@ -137,6 +147,73 @@ class cookingModeDelete(LoginRequiredMixin, DeleteView):
     fields = '__all__'
     success_url = reverse_lazy('recipebook:cookingMode_list')
 
+class cookingStepCreate(LoginRequiredMixin, View):
+    template = 'recipebook/cookingStep_form.html'
+    success_url = reverse_lazy('recipebook:cookingStep_list')
+    sl = 'choice'
+
+    def get(self, request, sl):
+        if sl == 'choice':
+            form = cookingStepForm1()
+        else:
+            form = cookingStepForm2()
+        ctx = {'form': form, 'sl': sl}
+        return render(request, self.template, ctx)
+
+    def post(self, request, sl):
+        if sl == 'choice':
+            form = cookingStepForm1(request.POST)
+        else:
+            form = cookingStepForm2(request.POST)
+        if not form.is_valid():
+            ctx = {'form': form, 'sl': sl}
+            return render(request, self.template, ctx)
+        if sl == 'choice':
+            mode = form.save()
+        else:
+            step = form.cleaned_data['step']
+            recipe = form.cleaned_data['recipe']
+            step_number = form.cleaned_data['step_number']
+            step = Step(step = step)
+            step.save()
+            cookingstep = CookingStep(recipe=recipe, step=step, step_number=step_number)
+            cookingstep.save()
+        return redirect(self.success_url)
+
+'''    template = 'recipebook/addStep_form.html'
+    success_url = reverse_lazy('recipebook:recipe_detail')
+
+    def get(self, request, pk):
+        step = get_object_or_404(self.cookingstep)
+        form = cookingStepForm()
+        print(form)
+        ctx = {'step': form}
+        return render(request, self.template, ctx)
+
+    def post(self, request, pk):
+        form = cookingStepForm(request.POST)
+        if not form.is_valid():
+            ctx = {'form': form}
+            return render(request, self.template, ctx)
+
+        cookingStepForm = form.save()
+        return redirect(self.success_url)
+'''
+'''class deleteStep(LoginRequiredMixin, View):
+    step = CookingStep
+    success_url = reverse_lazy('recipebook:recipe_detail')
+    template = 'recipebook/recipe_confirm_delete.html'
+
+    def get(self, request, pk):
+        recipe = get_object_or_404(self.reci, pk=pk)
+        form = recipeForm(instance=recipe)
+        ctx = {'recipe': recipe}
+        return render(request, self.template, ctx)
+
+    def post(self, request, pk):
+        recipe = get_object_or_404(self.reci, pk=pk)
+        recipe.delete()
+        return redirect(self.success_url)'''
 '''class modeCreate(CreateView):
     mode = cookingStep
     fields = '__all__'

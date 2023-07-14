@@ -1,6 +1,8 @@
+{% extends 'home/base_menu.html' %}
 {% block content %}
   <h1>{{ recipe.name }}</h1>
   <p> {{ recipe.description }} </p>
+  <p> {{ recipe.id }} </p>
   <p>
     {% if mode_count > 0 %}
       <ul>
@@ -11,15 +13,29 @@
             <a href="{% url 'recipebook:cookingMode_delete' mode.id %}">Delete</a>)
         </li>
         {% endfor %}
-        <li>
-            <a href="{% url 'recipebook:cookingMode_create' %}">Add a mode</a>
-        </li>
       </ul>
       <a href="{% url 'recipebook:recipe_create' %}">Add a recipe</a>
     {% else %}
       <p>
         There is no cooking mode for this recipe. Prease add a mode.
         <a href="{% url 'recipebook:cookingMode_create' %}">Add a mode</a>
+      </p>
+    {% endif %}
+  </p>
+  <p>
+    {% if step_count > 0 %}
+      <ul>
+        {% for step in steps %}
+        <li>
+            {{ step.step }}
+        </li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'recipebook:cookingStep_create' 'choice' %}">Add a step</a>
+    {% else %}
+      <p>
+        There is no cooking step for this recipe. Prease add a step.
+        <a href="{% url 'recipebook:cookingStep_create' 'choice' %}">Add a step</a>
       </p>
     {% endif %}
   </p>

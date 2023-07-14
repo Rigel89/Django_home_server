@@ -6,8 +6,10 @@
     {% for recipe in recipe_list %}
       <li>
           <a href="{% url 'recipebook:recipe_detail'  recipe.id %}">{{ recipe.name }}</a>
+          {% if recipe.owner == user %}
           (<a href="{% url 'recipebook:recipe_update' recipe.id %}">Update</a> |
           <a href="{% url 'recipebook:recipe_delete' recipe.id %}">Delete</a>)
+          {% endif %}
       </li>
     {% endfor %}
   </ul>

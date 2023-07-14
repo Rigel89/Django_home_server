@@ -1,3 +1,4 @@
+{% extends 'home/base_menu.html' %}
 
 {% block content %}
   <h1>Cooking mode List</h1>
@@ -16,6 +17,6 @@
   {% endif %}
   <p><a href="{% url 'recipebook:cookingMode_create' %}">Add a mode</a></p>
   <p>
-    <a href="{% url 'recipebook:main' %}">Back to recipes</a>
+    <a href="{% url 'recipebook:recipe_list' %}">Back to recipes</a>
   </p>
 {% endblock %}

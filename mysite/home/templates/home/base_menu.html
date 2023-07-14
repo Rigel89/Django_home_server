@@ -36,19 +36,13 @@
        </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      {% if user.is_authenticated %}
-      <li class="dropdown">
-      <!-- gravatar depends on app_tags being loaded -->
-      <!-- https://brobin.me/blog/2016/07/super-simple-django-gravatar/ -->
-      <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-        </a>
-        <ul class="dropdown-menu">
-            <li>You are autenticated</li>
-        </ul>
+      <li>
+        {% if user.is_authenticated %}
+        <a href="/accounts/logout">Logout</a>
+        {% else %}
+        <a href="/accounts/login">Login</a>
+        {% endif %}
        </li>
-       {% else %}
-       <li>You must be autenticated</li>
-       {% endif %}
     </ul>
   </div>
 </nav>

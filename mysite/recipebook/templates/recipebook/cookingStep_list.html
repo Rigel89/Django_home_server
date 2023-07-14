@@ -1,0 +1,17 @@
+{% extends 'home/base_menu.html' %}
+{% block content %}
+  <h1>Steps List</h1>
+  {% if cookingStep_list %}
+  <ul>
+    {% for cstep in cookingStep_list %}
+      <li>
+        {{ cstep.recipe }} {{ cstep.step }} {{ cstep.auto_increment_id }}
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no steps in the library.</p>
+  {% endif %}
+    <p><a href="{% url 'recipebook:cookingStep_create' 'choice' %}">Add a step</a></p>
+    <p><a href="{% url 'recipebook:recipe_list' %}">Back to recipes</a></p>
+{% endblock %}
