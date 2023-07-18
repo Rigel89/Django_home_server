@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinLengthValidator, MinValueValidator
+from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import User
 from django.conf import settings
 
@@ -21,6 +21,14 @@ class Recipe(models.Model):
     step = models.ManyToManyField(
                 'step',
                 through='CookingStep',
+                )
+    amount = models.ManyToManyField(
+                'amount',
+                through='CookingIngredient',
+                )
+    ingredient = models.ManyToManyField(
+                'ingredient',
+                through='CookingIngredient',
                 )
     # Shows up in the admin list
     def __str__(self):
@@ -61,4 +69,38 @@ class CookingStep(models.Model):
         """String for representing the Model object."""
         return str(self.recipe) + str(self.step) + str(self.step_number)
     
+class Amount(models.Model):
+    amount = models.CharField(
+            max_length=20, 
+            help_text='Enter the quantity.',
+            validators=[MinLengthValidator(2, "Make must be greater than 1 character")],
+            unique=True
+    )
 
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.amount
+
+class Ingredient(models.Model):
+    ingredient = models.CharField(
+            max_length=20, 
+            help_text='Enter the quantity.',
+            validators=[MinLengthValidator(2, "Make must be greater than 1 character")],
+            unique=True
+    )
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.ingredient
+
+class CookingIngredient(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, null=False)
+    amount = models.ForeignKey(Amount, on_delete=models.SET_NULL, null=True)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, null=False)
+    class Meta():
+        constraints = [
+                models.UniqueConstraint('recipe', 'ingredient', name='recipe_ingredient', violation_error_message="recipe and ingredient cant be repeated")
+                ]
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.ingredient + 'for' + self.recipe

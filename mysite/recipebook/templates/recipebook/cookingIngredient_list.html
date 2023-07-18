@@ -1,0 +1,20 @@
+{% extends 'home/base_menu.html' %}
+
+{% block content %}
+  <h1>Ingredient List</h1>
+  {% if cookingIngredient_list %}
+  <ul>
+    {% for cingredient in cookingIngredient_list %}
+      <li>
+        {{ cingredient.id }} {{ cingredient.recipe }} {{ cingredient.ingredient }} {{ cingredient.amount }}
+        (<a href="{% url 'recipebook:cookingIngredient_update' rp cingredient.id %}">Update</a> | 
+        <a href="{% url 'recipebook:cookingIngredient_delete' rp cingredient.id %}">Delete</a>)
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no ingridients in the library.</p>
+  {% endif %}
+    <p><a href="{% url 'recipebook:cookingIngredient_create' rp 'choice' %}">Add a ingridient for the recipe</a></p>
+    <p><a href="{% url 'recipebook:recipe_list' %}">Back to recipes</a></p>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'home/base_menu.html' %}
+
+{% block content %}
+  <h1>Cooking mode List</h1>
+  {% if object_list  %}
+  <ul>
+    {% for step in object_list  %}
+      <li>
+          {{ step.step }}
+          (<a href="{% url 'recipebook:step_update' step.id %}">Update</a> |
+          <a href="{% url 'recipebook:step_delete' step.id %}">Delete</a>)
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no step in the library.</p>
+  {% endif %}
+  <p><a href="{% url 'recipebook:step_create' %}">Add a step</a></p>
+  <p>
+    <a href="{% url 'recipebook:recipe_list' %}">Back to step list</a>
+  </p>
+{% endblock %}

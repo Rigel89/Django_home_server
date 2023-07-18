@@ -9,34 +9,60 @@
         {% for mode in modes %}
         <li>
             {{ mode.name }}
-            (<a href="{% url 'recipebook:cookingMode_update' mode.id %}">Update</a> |
-            <a href="{% url 'recipebook:cookingMode_delete' mode.id %}">Delete</a>)
         </li>
         {% endfor %}
       </ul>
-      <a href="{% url 'recipebook:recipe_create' %}">Add a recipe</a>
+      <a href="{% url 'recipebook:recipe_update' recipe.id %}">Edit modes</a>
     {% else %}
       <p>
         There is no cooking mode for this recipe. Prease add a mode.
-        <a href="{% url 'recipebook:cookingMode_create' %}">Add a mode</a>
+        <a href="{% url 'recipebook:cookingMode_create' %}">Add a cooking mode</a>
       </p>
     {% endif %}
   </p>
   <p>
     {% if step_count > 0 %}
-      <ul>
-        {% for step in steps %}
+      <ul id="step_unshorted">
+        {% for cstep in cookingstep %}
         <li>
-            {{ step.step }}
+            <b>Step {{ cstep.step_number }}:</b> {{ cstep.step }}
         </li>
         {% endfor %}
       </ul>
-      <a href="{% url 'recipebook:cookingStep_create' 'choice' %}">Add a step</a>
+      <a href="{% url 'recipebook:cookingStep_create' recipe.id 'choice' %}">Add a step</a>
     {% else %}
       <p>
         There is no cooking step for this recipe. Prease add a step.
-        <a href="{% url 'recipebook:cookingStep_create' 'choice' %}">Add a step</a>
+        <a href="{% url 'recipebook:cookingStep_create' recipe.id 'choice' %}">Add a step</a>
+      </p>
+    {% endif %}
+    {% if ingredient_count > 0 %}
+      <ul>
+        {% for cingredient in cookingingredient %}
+        <li>
+            {{ cingredient.ingredient }} {{ cingredient.amount }}
+        </li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'recipebook:cookingIngredient_create' recipe.id 'choice' %}">Add a ingredient</a>
+    {% else %}
+      <p>
+        There is no cooking ingredient for this recipe. Please add a ingredient.
+        <a href="{% url 'recipebook:cookingIngredient_create' recipe.id 'choice' %}">Add a ingredient</a>
       </p>
     {% endif %}
   </p>
+  <script>
+  const sortList = list => [...list].sort((a, b) => {
+    const A = a.textContent, B = b.textContent;
+    return (A < B) ? -1 : (A > B) ? 1 : 0;
+  });
+  
+  
+  window.addEventListener("load", function() {
+    const ul = document.getElementById("step_unshorted");
+    const list = ul.querySelectorAll("li");
+    ul.append(...sortList(list));
+  })
+  </script>
 {% endblock %}

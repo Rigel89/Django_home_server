@@ -23,8 +23,7 @@
       Please add a mode before you add an recipe.
     {% endif %}
   </p>
-  <p>
-  <a href="{% url 'recipebook:cookingMode_list' %}">View modes</a> ({{ make_count }}) | 
-    <a href="{% url 'recipebook:cookingMode_create' %}">Add a modes</a>
-  </p>
+  <p><a href="{% url 'recipebook:cookingMode_list' %}">View modes</a></p>
+  <p></p><a href="{% url 'recipebook:step_list' %}">View step</a></p>
+  <p></p><a href="{% url 'recipebook:ingredient_list' %}">View ingredient</a></p>
 {% endblock %}

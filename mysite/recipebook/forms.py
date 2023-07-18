@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from recipebook.models import Recipe, CookingMode, Step, CookingStep
+from recipebook.models import *
 from django import forms
 from django.core import validators
 
@@ -24,15 +24,54 @@ class cookingStepForm1(ModelForm):
     class Meta:
         model = CookingStep
         fields = '__all__'
+
 class cookingStepForm2(ModelForm):
+    #recipe = forms.ModelChoiceField(queryset=Recipe.objects.all())
     step = forms.CharField(
         max_length=200, 
         help_text='Enter a short step description.',
         validators=[validators.MinLengthValidator(2, "Make must be greater than 1 character")],
         )
+    #step_number = forms.IntegerField(min_value=0)
     class Meta:
         model = CookingStep
         fields = ['recipe', 'step_number']
+    field_order = ['recipe', 'step', 'step_number']
+
+class cookingStepForm3(ModelForm):
+    recipe = forms.ModelChoiceField(disabled=True, queryset=Recipe.objects)
+    step = forms.ModelChoiceField(disabled=True, queryset=Step.objects)
+    class Meta:
+        model = CookingStep
+        fields = ['recipe', 'step', 'step_number']
+    field_order = ['recipe', 'step', 'step_number']
+
+class cookingIngredientForm1(ModelForm):
+    class Meta:
+        model = CookingIngredient
+        fields = '__all__'
+    field_order = ['recipe', 'ingredient', 'amount']
+
+class cookingIngredientForm2(ModelForm):
+    #recipe = forms.ModelChoiceField(queryset=Recipe.objects.all())
+    amount = forms.CharField(
+            max_length=20, 
+            help_text='Enter the quantity.',
+            validators=[MinLengthValidator(2, "Make must be greater than 1 character")],
+    )
+    class Meta:
+        model = CookingIngredient
+        fields = ['recipe', 'ingredient']
+    field_order = ['recipe', 'ingredient', 'amount']
+
+class cookingIngredientForm3(ModelForm):
+    recipe = forms.ModelChoiceField(disabled=True, queryset=Recipe.objects)
+    ingredient = forms.ModelChoiceField(disabled=False, queryset=Ingredient.objects)
+    amount = forms.ModelChoiceField(disabled=False, queryset=Amount.objects)
+    class Meta:
+        model = CookingIngredient
+        fields = ['recipe', 'ingredient', 'amount']
+    field_order = ['recipe', 'ingredient', 'amount']
 
 class BasicForm(forms.Form):
     name = forms.CharField(
