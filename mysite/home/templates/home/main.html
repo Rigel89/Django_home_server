@@ -1,21 +1,21 @@
 <!doctype html>
 {% extends 'home/base_menu.html' %}
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  </head>
-  {% block content %}
+  <head></head>
+  {% block welcome %}
+  <div class="container-fluid">
+    <h1>
+      These is the main page
+    </h1>
     <body>
-      <h1>
-        These is the main page
-      </h1>
       <p>
         One Page to rule them all, One Page to find them,<br>
         One Page to bring them all and in the "Home" bind them
       </p>
+    </body>
+  </div>
+  {% endblock %}
+  {% block content %}
         <h3>Atthentification</h3>
         <p>
             {% if user.is_authenticated %}

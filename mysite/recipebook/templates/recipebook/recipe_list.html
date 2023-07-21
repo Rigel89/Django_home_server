@@ -1,29 +1,38 @@
+<!doctype html>
 {% extends 'home/base_menu.html' %}
-{% block content %}
+<html lang="en">
+{% block welcome %}
   <h1>Recipes List</h1>
-  {% if recipe_list %}
-  <ul>
-    {% for recipe in recipe_list %}
-      <li>
-          <a href="{% url 'recipebook:recipe_detail'  recipe.id %}">{{ recipe.name }}</a>
-          {% if recipe.owner == user %}
-          (<a href="{% url 'recipebook:recipe_update' recipe.id %}">Update</a> |
-          <a href="{% url 'recipebook:recipe_delete' recipe.id %}">Delete</a>)
-          {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-    <p>There are no recipes in the library.</p>
-  {% endif %}
-  <p>
-    {% if cookingMode_count > 0 %}
-      <a href="{% url 'recipebook:recipe_create' %}">Add a recipe</a>
-    {% else %}
-      Please add a mode before you add an recipe.
-    {% endif %}
-  </p>
-  <p><a href="{% url 'recipebook:cookingMode_list' %}">View modes</a></p>
-  <p></p><a href="{% url 'recipebook:step_list' %}">View step</a></p>
-  <p></p><a href="{% url 'recipebook:ingredient_list' %}">View ingredient</a></p>
 {% endblock %}
+{% block content %}
+  <body>
+    {% if recipe_list %}
+    <ul>
+      {% for recipe in recipe_list %}
+        <li>
+          <a type="button" class="btn btn-light" href="{% url 'recipebook:recipe_detail'  recipe.id %}">{{ recipe.name }}</a>
+          {% if recipe.owner == user %}
+            <div id="button-list" class="btn-group" role="group" aria-label="Basic">
+              <a type="button" class="btn btn-primary" href="{% url 'recipebook:recipe_update' recipe.id %}">Update</a>
+              <a type="button" class="btn btn-primary" href="{% url 'recipebook:recipe_delete' recipe.id %}">Delete</a>
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>There are no recipes in the library.</p>
+    {% endif %}
+    <p>
+      {% if cookingMode_count > 0 %}
+        <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:recipe_create' %}">Add a recipe</a>
+      {% else %}
+        Please add a mode before you add an recipe.
+      {% endif %}
+      <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:cookingMode_list' %}">View modes</a>
+      <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:step_list' %}">View step</a>
+      <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:ingredient_list' %}">View ingredient</a>
+    </p>
+  </body>
+{% endblock %}
+</html>

@@ -11,6 +11,7 @@ class Recipe(models.Model):
             unique=True
     )
     description = models.CharField(max_length=300, null= True, blank=True)
+    image = models.ImageField(blank=True)
     mode = models.ManyToManyField(
             'CookingMode',
             help_text='Select one or more cooking modes.',

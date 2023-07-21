@@ -1,49 +1,51 @@
 {% extends 'base_bootstrap.html' %}
 {% block navbar %}
 <!-- https://www.w3schools.com/bootstrap/bootstrap_navbar.asp -->
-<nav class="navbar navbar-default navbar-inverse">
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="{% url 'home:main' %}">{{ settings.APP_NAME }}</a>
+<!--    <div class="navbar-header"> -->
+    <a class="navbar-brand" href="{% url 'home:main' %}">
+      <img src="/static/favicon-32x32.png"
+        alt="Logo" width="32" height="32" class="d-inline-block align-text-top">
+      {{ settings.APP_NAME }}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <!-- https://stackoverflow.com/questions/22047251/django-dynamically-get-view-url-and-check-if-its-the-current-page -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Assign output of url function to a variable named
+            'xyz' to use in the if statement -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home:main' %}">Home</a></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'recipebook:main' %}">Recipe Book</a></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'recipebook:cookingMode_list' %}">Page 2</a></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Recipe Book
+          </a>
+          <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'recipebook:main' %}">Main</a></li>
+              <li><a class="dropdown-item" href="{% url 'recipebook:recipe_list' %}">Recipe list</a></li>
+              <li><a class="dropdown-item" href="{% url 'recipebook:cookingMode_list' %}">Mode list</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          {% if user.is_authenticated %}
+            <a href="/accounts/logout">Logout</a>
+          {% else %}
+            <a href="/accounts/login">Login</a>
+          {% endif %}
+        </li>
+      </ul>
     </div>
-    <!-- https://stackoverflow.com/questions/22047251/django-dynamically-get-view-url-and-check-if-its-the-current-page -->
-    <ul class="nav navbar-nav">
-
-      <!-- Assign output of url function to a variable named
-          'xyz' to use in the if statement -->
-      {% url 'home:main' as xyz %}
-      <li {% if request.get_full_path == xyz %}class="active"{% endif %}>
-          <a href="{% url 'home:main' %}">Home</a></li>
-
-      {% url 'recipebook:main' as abc1 %}
-      <li {% if request.get_full_path == abc1 %}class="active"{% endif %}>
-          <a href="{% url 'recipebook:main' %}">Recipe Book</a></li>
-
-      {% url 'recipebook:cookingMode_list' as abc2 %}
-      <li {% if request.get_full_path == abc2 %}class="active"{% endif %}>
-          <a href="{% url 'recipebook:cookingMode_list' %}">Page 2</a></li>
-
-      <li class="dropdown">
-      <a href="#" data-toggle="dropdown" class="dropdown-toggle">Recipe Book
-          <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li>
-              <a href="{% url 'recipebook:main' %}">Main</a>
-              <a href="{% url 'recipebook:recipe_list' %}">Recipe list</a>
-              <a href="{% url 'recipebook:cookingMode_list' %}">Mode list</a>
-            </li>
-        </ul>
-       </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-        {% if user.is_authenticated %}
-        <a href="/accounts/logout">Logout</a>
-        {% else %}
-        <a href="/accounts/login">Login</a>
-        {% endif %}
-       </li>
-    </ul>
   </div>
 </nav>
 {% endblock %}

@@ -1,16 +1,18 @@
+<!doctype html>
 {% extends 'home/base_menu.html' %}
-{% block content %}
-<html>
-  <body>
-      <h1>Recipes Book</h1>
-      <p>These page allow you to add new disses</p>
-      <p>
-      <ul>
-          <li><a href="example">Raw output of recipebook.as_table</a></li>
-          <li><a href="{% url 'recipebook:recipe_list' %}">Recipe list view</a></li>
-          </li>
-      </ul>
-      </p>
-  </body>
+<html lang="en">
+  <head></head>
+  {% block content %}
+    <body>
+        <h1>Recipes Book</h1>
+        <p>These page allow you to add new disses</p>
+        <p>
+        <ul>
+            <li><a href="example">Raw output of recipebook.as_table</a></li>
+            <li><a href="{% url 'recipebook:recipe_list' %}">Recipe list view</a></li>
+            </li>
+        </ul>
+        </p>
+    </body>
+  {% endblock %}
 </html>
-{% endblock %}

@@ -1,56 +1,76 @@
+<!doctype html>
 {% extends 'home/base_menu.html' %}
+<html lang="en">
 {% block content %}
-  <h1>{{ recipe.name }}</h1>
-  <p> {{ recipe.description }} </p>
-  <p> {{ recipe.id }} </p>
-  <p>
-    {% if mode_count > 0 %}
-      <ul>
-        {% for mode in modes %}
-        <li>
-            {{ mode.name }}
-        </li>
-        {% endfor %}
-      </ul>
-      <a href="{% url 'recipebook:recipe_update' recipe.id %}">Edit modes</a>
-    {% else %}
-      <p>
-        There is no cooking mode for this recipe. Prease add a mode.
-        <a href="{% url 'recipebook:cookingMode_create' %}">Add a cooking mode</a>
-      </p>
-    {% endif %}
-  </p>
-  <p>
-    {% if step_count > 0 %}
-      <ul id="step_unshorted">
-        {% for cstep in cookingstep %}
-        <li>
-            <b>Step {{ cstep.step_number }}:</b> {{ cstep.step }}
-        </li>
-        {% endfor %}
-      </ul>
-      <a href="{% url 'recipebook:cookingStep_create' recipe.id 'choice' %}">Add a step</a>
-    {% else %}
-      <p>
-        There is no cooking step for this recipe. Prease add a step.
-        <a href="{% url 'recipebook:cookingStep_create' recipe.id 'choice' %}">Add a step</a>
-      </p>
-    {% endif %}
-    {% if ingredient_count > 0 %}
-      <ul>
-        {% for cingredient in cookingingredient %}
-        <li>
-            {{ cingredient.ingredient }} {{ cingredient.amount }}
-        </li>
-        {% endfor %}
-      </ul>
-      <a href="{% url 'recipebook:cookingIngredient_create' recipe.id 'choice' %}">Add a ingredient</a>
-    {% else %}
-      <p>
-        There is no cooking ingredient for this recipe. Please add a ingredient.
-        <a href="{% url 'recipebook:cookingIngredient_create' recipe.id 'choice' %}">Add a ingredient</a>
-      </p>
-    {% endif %}
+<div class="container text-start">
+  <div class="row">
+    <div class="col-10">
+      <div class="row-sm-6">
+        <h1>{{ recipe.name }}</h1>
+      </div>
+      <div class="row-sm-3"></div>
+        <p>
+          {% if mode_count > 0 %}
+            <ul class="list-inline">
+              {% for mode in modes %}
+              <li type="button"  class="list-inline-item btn btn-outline-primary"> <b>{{ mode.name }}</b> </li>
+              {% endfor %}
+              <a type="button" class="btn btn-primary" href="{% url 'recipebook:recipe_update' recipe.id %}">Edit modes</a>
+            </ul>
+          {% else %}
+            <p>
+              There is no cooking mode for this recipe. Prease add a mode.
+              <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingMode_create' %}">Add a cooking mode</a>
+            </p>
+          {% endif %}
+        </p>
+      <div class="row-sm-3">
+        <p> {{ recipe.description }} </p>
+      </div>
+    </div>
+    <div class="col-2">
+      <img src="\static\android-chrome-192x192.png" class="img-thumbnail" alt="...">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 text-start">
+      <h3>List of steps</h3>
+      {% if step_count > 0 %}
+        <ul id="step_unshorted">
+          {% for cstep in cookingstep %}
+          <li>
+              <b>Step {{ cstep.step_number }}:</b> {{ cstep.step }}
+          </li>
+          {% endfor %}
+        </ul>
+        <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingStep_create' recipe.id 'choice' %}">Add a step</a>
+      {% else %}
+        <p>
+          There is no cooking step for this recipe. Prease add a step.
+          <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingStep_create' recipe.id 'choice' %}">Add a step</a>
+        </p>
+      {% endif %}
+    </div>
+    <div class="col-6 text-start">
+      <h3>List of ingredients</h3>
+      {% if ingredient_count > 0 %}
+        <ul>
+          {% for cingredient in cookingingredient %}
+          <li>
+              {{ cingredient.ingredient }} {{ cingredient.amount }}
+          </li>
+          {% endfor %}
+        </ul>
+        <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingIngredient_create' recipe.id 'choice' %}">Add a ingredient</a>
+      {% else %}
+        <p>
+          There is no cooking ingredient for this recipe. Please add a ingredient.
+          <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingIngredient_create' recipe.id 'choice' %}">Add a ingredient</a>
+        </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
   </p>
   <script>
   const sortList = list => [...list].sort((a, b) => {
