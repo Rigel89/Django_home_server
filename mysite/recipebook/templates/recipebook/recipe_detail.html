@@ -57,7 +57,7 @@
         <ul>
           {% for cingredient in cookingingredient %}
           <li>
-              {{ cingredient.ingredient }} {{ cingredient.amount }}
+            {{ cingredient.amount }} of {{ cingredient.ingredient }}.
           </li>
           {% endfor %}
         </ul>
@@ -70,14 +70,20 @@
       {% endif %}
     </div>
   </div>
+  <div class="row">
+    <p>
+      <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:recipe_create' %}">Add a recipe</a>
+      <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:cookingMode_list' %}">View modes</a>
+      <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:step_list' %}">View step</a>
+      <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:ingredient_list' %}">View ingredient</a>
+    </p>
+  </div>
 </div>
-  </p>
   <script>
   const sortList = list => [...list].sort((a, b) => {
     const A = a.textContent, B = b.textContent;
     return (A < B) ? -1 : (A > B) ? 1 : 0;
   });
-  
   
   window.addEventListener("load", function() {
     const ul = document.getElementById("step_unshorted");

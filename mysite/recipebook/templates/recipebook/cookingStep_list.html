@@ -1,20 +1,29 @@
+<!doctype html>
 {% extends 'home/base_menu.html' %}
-
+<html lang="en">
+{% block welcome %}
+  <h1>Cooking steps List</h1>
+{% endblock %}
 {% block content %}
-  <h1>Steps List</h1>
+<body>
   {% if cookingStep_list %}
-  <ul>
-    {% for cstep in cookingStep_list %}
-      <li>
-        {{ cstep.id }} {{ cstep.recipe }} {{ cstep.step_number }} {{ cstep.step }}
-        (<a href="{% url 'recipebook:cookingStep_update' rp cstep.id %}">Update</a> | 
-        <a href="{% url 'recipebook:cookingStep_delete' rp cstep.id %}">Delete</a>)
-      </li>
-    {% endfor %}
-  </ul>
+    <ul>
+      {% for cstep in cookingStep_list %}
+        <li>
+          <a type="button" class="btn btn-light" 
+          href=""> Step {{ cstep.step_number }} for {{ cstep.recipe }}: {{ cstep.step }} </a>
+          <div id="button-list" class="btn-group" role="group" aria-label="Basic">
+            <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingStep_update' rp cstep.id %}">Update</a>
+            <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingStep_delete' rp cstep.id %}">Delete</a> 
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
   {% else %}
     <p>There are no steps in the library.</p>
   {% endif %}
-    <p><a href="{% url 'recipebook:cookingStep_create' rp 'choice' %}">Add a step</a></p>
-    <p><a href="{% url 'recipebook:recipe_list' %}">Back to recipes</a></p>
+    <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:cookingStep_create' rp 'choice' %}">Add a step</a>
+    <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:recipe_list' %}">Back to recipes</a>
+</body>
 {% endblock %}
+</html>

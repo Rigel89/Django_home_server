@@ -1,20 +1,31 @@
+<!doctype html>
 {% extends 'home/base_menu.html' %}
-
+<html lang="en">
+{% block welcome %}
+  <h1>Cooking ingredient List</h1>
+{% endblock %}
 {% block content %}
-  <h1>Ingredient List</h1>
+<body>
   {% if cookingIngredient_list %}
   <ul>
     {% for cingredient in cookingIngredient_list %}
       <li>
-        {{ cingredient.id }} {{ cingredient.recipe }} {{ cingredient.ingredient }} {{ cingredient.amount }}
-        (<a href="{% url 'recipebook:cookingIngredient_update' rp cingredient.id %}">Update</a> | 
-        <a href="{% url 'recipebook:cookingIngredient_delete' rp cingredient.id %}">Delete</a>)
+        <a type="button" class="btn btn-light" 
+        href=""> Ingredient for {{ cingredient.recipe }}: {{ cingredient.amount }} of {{ cingredient.ingredient }} </a>
+        <div id="button-list" class="btn-group" role="group" aria-label="Basic">
+          <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingIngredient_update' rp cingredient.id %}">Update</a>
+          <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingIngredient_delete' rp cingredient.id %}">Delete</a> 
+        </div>
       </li>
     {% endfor %}
   </ul>
   {% else %}
     <p>There are no ingridients in the library.</p>
   {% endif %}
-    <p><a href="{% url 'recipebook:cookingIngredient_create' rp 'choice' %}">Add a ingridient for the recipe</a></p>
-    <p><a href="{% url 'recipebook:recipe_list' %}">Back to recipes</a></p>
+  <a type="button" class="btn btn-outline-primary" 
+  href="{% url 'recipebook:cookingIngredient_create' rp 'choice' %}">Add a ingridient for the recipe</a>
+  <a type="button" class="btn btn-outline-primary" 
+  href="{% url 'recipebook:recipe_list' %}">Back to recipes</a>
+</body>
 {% endblock %}
+</html>

@@ -1,22 +1,29 @@
+<!doctype html>
 {% extends 'home/base_menu.html' %}
-
+<html lang="en">
+{% block welcome %}
+  <h1>Step list</h1>
+{% endblock %}
 {% block content %}
+<body>
   <h1>Cooking mode List</h1>
   {% if object_list  %}
   <ul>
-    {% for step in object_list  %}
+    {% for amount in object_list  %}
       <li>
-          {{ step.step }}
-          (<a href="{% url 'recipebook:step_update' step.id %}">Update</a> |
-          <a href="{% url 'recipebook:step_delete' step.id %}">Delete</a>)
+        <a type="button" class="btn btn-light" href=""> {{ amount.amount }} </a>
+        <div id="button-list" class="btn-group" role="group" aria-label="Basic">
+          <a type="button" class="btn btn-primary" href="{% url 'recipebook:amount_update' amount.id %}">Update</a>
+          <a type="button" class="btn btn-primary" href="{% url 'recipebook:amount_delete' amount.id %}">Delete</a> 
+        </div>
       </li>
     {% endfor %}
   </ul>
   {% else %}
     <p>There are no step in the library.</p>
   {% endif %}
-  <p><a href="{% url 'recipebook:step_create' %}">Add a step</a></p>
-  <p>
-    <a href="{% url 'recipebook:recipe_list' %}">Back to step list</a>
-  </p>
+  <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:amount_create' %}">Add a step</a>
+  <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:amount_list' %}">Back to recipes</a>
+</body>
 {% endblock %}
+</html>

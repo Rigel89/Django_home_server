@@ -1,22 +1,28 @@
+<!doctype html>
 {% extends 'home/base_menu.html' %}
-
+<html lang="en">
+{% block welcome %}
+<h1> Cooking mode List </h1>
+{% endblock %}
 {% block content %}
-  <h1>Cooking mode List</h1>
+<body>
   {% if cookingMode_list %}
   <ul>
     {% for cookingMode in cookingMode_list %}
       <li>
-          {{ cookingMode.name }}
-         (<a href="{% url 'recipebook:cookingMode_update' cookingMode.id %}">Update</a> |
-          <a href="{% url 'recipebook:cookingMode_delete' cookingMode.id %}">Delete</a>)
+        <a type="button" class="btn btn-light" href=""> {{ cookingMode.name }} </a>
+        <div id="button-list" class="btn-group" role="group" aria-label="Basic">
+          <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingMode_update' cookingMode.id %}">Update</a>
+          <a type="button" class="btn btn-primary" href="{% url 'recipebook:cookingMode_delete' cookingMode.id %}">Delete</a> 
+        </div>
       </li>
     {% endfor %}
   </ul>
   {% else %}
     <p>There are no mode in the library.</p>
   {% endif %}
-  <p><a href="{% url 'recipebook:cookingMode_create' %}">Add a mode</a></p>
-  <p>
-    <a href="{% url 'recipebook:recipe_list' %}">Back to recipes</a>
-  </p>
+  <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:cookingMode_create' %}">Add a mode</a>
+  <a type="button" class="btn btn-outline-primary" href="{% url 'recipebook:recipe_list' %}">Back to recipes</a>
+</body>
 {% endblock %}
+</html>
